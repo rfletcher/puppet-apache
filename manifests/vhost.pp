@@ -212,10 +212,12 @@ define apache::vhost (
     $config_file_enable_path = "${apache::config_dir}/sites-enabled/000-${name}"
   }
 
-  $manage_file_content = $template ? {
-    ''      => undef,
-    undef   => undef,
-    default => template($template),
+  if ! $manage_file_source {
+    $manage_file_content = $template ? {
+      ''      => undef,
+      undef   => undef,
+      default => template($template),
+    }
   }
 
   include apache
