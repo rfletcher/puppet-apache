@@ -129,6 +129,7 @@ define apache::vhost (
   $port                         = '80',
   $ip_addr                      = '*',
   $ssl                          = false,
+  $content                      = '',
   $template                     = 'apache/virtualhost/vhost.conf.erb',
   $source                       = '',
   $priority                     = '50',
@@ -213,10 +214,14 @@ define apache::vhost (
   }
 
   if ! $manage_file_source {
-    $manage_file_content = $template ? {
-      ''      => undef,
-      undef   => undef,
-      default => template($template),
+    if $content != '' {
+      $manage_file_content = $content
+    } else {
+      $manage_file_content = $template ? {
+        ''      => undef,
+        undef   => undef,
+        default => template($template),
+      }
     }
   }
 
