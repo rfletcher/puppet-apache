@@ -9,15 +9,15 @@ class apache::modules::cloudflare (
 
   wget::fetch { $source:
     source      => $source,
-    destination => '/tmp/mod_cloudflare.deb',
+    destination => '/tmp/libapache2-mod-cloudflare.deb',
     timeout     => 0,
     verbose     => false,
   } ->
 
-  package { 'mod_cloudflare':
+  package { 'libapache2-mod-cloudflare':
     ensure   => present,
     provider => 'dpkg',
-    source   => '/tmp/mod_cloudflare.deb',
+    source   => '/tmp/libapache2-mod-cloudflare.deb',
   } ->
 
   file { '/etc/apache2/mods-enabled/cloudflare.conf':
