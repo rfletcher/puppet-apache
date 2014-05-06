@@ -6,7 +6,9 @@ class apache::modules::evasive {
   # the package fails to install a load file, so we have to do a little extra work
   $mods_dir = "/etc/apache2/mods-available"
 
-  exec { "mkdir -p ${mods_dir}": } ->
+  exec { "mkdir -p ${mods_dir}":
+    creates => $mods_dir,
+  } ->
 
   file { "${mods_dir}/evasive.load":
     ensure  => present,
