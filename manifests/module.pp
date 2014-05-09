@@ -69,7 +69,7 @@ define apache::module (
 
     $real_install_package = $install_package ? {
       true    => "${modpackage_basename}${name}",
-      default => $install_package,
+      default => "${modpackage_basename}${install_package}",
     }
 
     package { "ApacheModule_${name}":
