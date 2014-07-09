@@ -51,6 +51,7 @@ class apache::modules::passenger(
   } ->
 
   file { '/etc/apache2/mods-available/passenger.conf':
+    ensure  => present,
     content => "
       PassengerRoot ${passenger_root}
       PassengerDefaultRuby ${real_ruby_root}/bin/ruby
@@ -60,6 +61,7 @@ class apache::modules::passenger(
   } ->
 
   file { '/etc/apache2/mods-available/passenger.load':
+    ensure  => present,
     content => "LoadModule passenger_module ${mod_passenger_path}\n",
     notify  => $apache::manage_service_autorestart,
     require => Package['apache'],
