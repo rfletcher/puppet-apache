@@ -4,6 +4,7 @@
 #
 class apache::modules::evasive {
   apache::module { 'mod-evasive':
+    ensure          => present,
     install_package => 'evasive',
   }
 }

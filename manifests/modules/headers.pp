@@ -3,5 +3,7 @@
 # Manage Apache mod_headers
 #
 class apache::modules::headers {
-  apache::module { 'headers': }
+  apache::module { 'headers':
+    ensure => present,
+  }
 }

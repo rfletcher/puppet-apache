@@ -4,6 +4,7 @@
 #
 class apache::modules::proxy_html {
   apache::module { 'proxy_html':
+    ensure          => present,
     install_package => 'proxy-html',
   }
 }
