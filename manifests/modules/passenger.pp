@@ -48,6 +48,7 @@ class apache::modules::passenger(
     command     => "passenger-install-apache2-module -a --languages ruby",
     creates     => $mod_passenger_path,
     environment => $passenger_build_env,
+    timeout     => 600,
   } ->
 
   file { '/etc/apache2/mods-available/passenger.conf':
