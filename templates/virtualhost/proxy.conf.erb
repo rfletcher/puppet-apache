@@ -1,0 +1,8 @@
+# File Managed by Puppet
+
+<VirtualHost *:<%= @ssl ? 443 : 80 %>>
+  ServerName <%= @name %>
+
+  ProxyPass        / http://<%= @target %>:<%= @port %>/
+  ProxyPassReverse / http://<%= @target %>:<%= @port %>/
+</VirtualHost>
