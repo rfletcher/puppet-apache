@@ -1,7 +1,8 @@
 # File Managed by Puppet
 
 <VirtualHost *:<%= @ssl ? 443 : 80 %>>
-  ServerName <%= @name %>
+  ServerName  <%= @name %>
+  ServerAlias 127.0.0.1 # receive requests forwarded from the default vhost
 
   ProxyPass        / http://<%= @target %>:<%= @port %>/
   ProxyPassReverse / http://<%= @target %>:<%= @port %>/

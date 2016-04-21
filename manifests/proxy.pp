@@ -12,6 +12,9 @@ define apache::proxy (
   $ssl    = false,
   $target = 'localhost',
 ) {
+  # start with a typical apache-based web server configuration
+  include ::viglink::profiles::web::common::apache
+
   include ::apache::modules::proxy
 
   apache::vhost { $title:

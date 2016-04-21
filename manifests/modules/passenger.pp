@@ -29,26 +29,27 @@ class apache::modules::passenger(
 
   include apache
   include ruby
+  include libcurl4-openssl-dev
 
-  rbenv::gem { "passenger":
+  rbenv::gem { 'passenger':
     ruby_version => $ruby_version,
     version      => $passenger_version,
   } ->
 
   # install mod_passenger build dependencies
   package { [
-    'libcurl4-openssl-dev',
     'apache2-threaded-dev',
     'libapr1-dev',
     'libaprutil1-dev',
   ]: } ->
 
   # build mod_passenger
-  exec { "build mod_passenger":
-    command     => "passenger-install-apache2-module -a --languages ruby",
+  exec { 'build mod_passenger':
+    command     => 'passenger-install-apache2-module -a --languages ruby',
     creates     => $mod_passenger_path,
     environment => $passenger_build_env,
     timeout     => 600,
+    require     => Class['libcurl4-openssl-dev'],
   } ->
 
   file { '/etc/apache2/mods-available/passenger.conf':
@@ -68,5 +69,5 @@ class apache::modules::passenger(
     require => Package['apache'],
   } ->
 
-  apache::module { "passenger": }
+  apache::module { 'passenger': }
 }
