@@ -4,6 +4,7 @@
 #
 class apache::modules::passenger(
   $ensure        = '4.0.45',
+  $config        = {},
   $ruby_root     = undef,
   $rbenv_root    = undef,
   $ruby_version,
@@ -31,6 +32,11 @@ class apache::modules::passenger(
   include ruby
   include libcurl4-openssl-dev
 
+  $real_config = merge( {
+    'PassengerDefaultRuby' => "${real_ruby_root}/bin/ruby",
+    'PassengerRoot'        => $passenger_root,
+  }, $config )
+
   rbenv::gem { 'passenger':
     ruby_version => $ruby_version,
     version      => $passenger_version,
@@ -54,10 +60,7 @@ class apache::modules::passenger(
 
   file { '/etc/apache2/mods-available/passenger.conf':
     ensure  => present,
-    content => "
-      PassengerRoot ${passenger_root}
-      PassengerDefaultRuby ${real_ruby_root}/bin/ruby
-    ",
+    content => template( 'apache/module/passenger.conf.erb' ),
     notify  => $apache::manage_service_autorestart,
     require => Package['apache'],
   } ->
