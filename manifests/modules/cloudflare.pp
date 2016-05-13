@@ -2,22 +2,18 @@
 #
 # Manage Apache mod_cloudflare
 #
-class apache::modules::cloudflare (
-  $source = 'https://www.cloudflare.com/static/misc/mod_cloudflare/ubuntu/mod_cloudflare-precise-amd64.latest.deb',
-) {
-  include apache
+class apache::modules::cloudflare {
+  include ::apache
 
-  wget::fetch { $source:
-    source      => $source,
-    destination => '/tmp/libapache2-mod-cloudflare.deb',
-    timeout     => 0,
-    verbose     => false,
+  ::apt::source { 'cloudflare':
+    ensure   => present,
+    location => "http://pkg.cloudflare.com/",
   } ->
 
   package { 'libapache2-mod-cloudflare':
-    ensure   => present,
-    provider => 'dpkg',
-    source   => '/tmp/libapache2-mod-cloudflare.deb',
+    ensure          => present,
+    install_options => ['--allow-unauthenticated'],
+    require         => Class['apt::update'],
   } ->
 
   file { '/etc/apache2/mods-enabled/cloudflare.conf':
