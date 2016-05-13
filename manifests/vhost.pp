@@ -198,10 +198,8 @@ define apache::vhost (
   # Config file path
   if $priority != '' {
     $config_file_path = "${apache::vdir}/${priority}-${name}.conf"
-  } elsif ($name != 'default') and ($name != 'default-ssl') {
-    $config_file_path = "${apache::vdir}/${name}.conf"
   } else {
-    $config_file_path = "${apache::vdir}/${name}"
+    $config_file_path = "${apache::vdir}/${name}.conf"
   }
 
   # Config file enable path
@@ -210,7 +208,7 @@ define apache::vhost (
   } elsif ($name != 'default') and ($name != 'default-ssl') {
     $config_file_enable_path = "${apache::config_dir}/sites-enabled/${name}.conf"
   } else {
-    $config_file_enable_path = "${apache::config_dir}/sites-enabled/000-${name}"
+    $config_file_enable_path = "${apache::config_dir}/sites-enabled/000-${name}.conf"
   }
 
   if ! $manage_file_source {

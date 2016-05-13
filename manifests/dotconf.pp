@@ -35,9 +35,14 @@ define apache::dotconf (
     default   => $content,
   }
 
+  $config_dir = $::lsbdistcodename ? {
+    'trusty' => 'conf-enabled',
+    default  => 'conf.d',
+  }
+
   file { "Apache_${name}.conf":
     ensure  => $ensure,
-    path    => "${apache::config_dir}/conf.d/${name}.conf",
+    path    => "${apache::config_dir}/${config_dir}/${name}.conf",
     mode    => $apache::config_file_mode,
     owner   => $apache::config_file_owner,
     group   => $apache::config_file_group,
