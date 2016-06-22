@@ -2,7 +2,9 @@
 #
 # Manage Apache mod_cloudflare
 #
-class apache::modules::cloudflare {
+class apache::modules::cloudflare(
+  $ensure = 'present'
+) {
   include ::apache
 
   ::apt::key { 'FBA8C0EE63617C5EED695C43254B391D8CACCBF8':
@@ -15,7 +17,7 @@ class apache::modules::cloudflare {
   } ->
 
   package { 'libapache2-mod-cloudflare':
-    ensure          => present,
+    ensure          => $ensure,
     install_options => ['--allow-unauthenticated'],
     require         => Class['apt::update'],
   } ->
