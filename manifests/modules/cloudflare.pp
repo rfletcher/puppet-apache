@@ -5,6 +5,10 @@
 class apache::modules::cloudflare {
   include ::apache
 
+  ::apt::key { 'FBA8C0EE63617C5EED695C43254B391D8CACCBF8':
+    source => 'https://pkg.cloudflare.com/pubkey.gpg',
+  } ->
+
   ::apt::source { 'cloudflare':
     ensure   => present,
     location => "http://pkg.cloudflare.com/",
