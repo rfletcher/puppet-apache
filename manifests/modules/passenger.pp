@@ -5,6 +5,7 @@
 class apache::modules::passenger(
   $ensure        = '4.0.45',
   $config        = {},
+  $rack_version  = '1.6.4',
   $ruby_root     = undef,
   $rbenv_root    = undef,
   $ruby_version,
@@ -36,6 +37,11 @@ class apache::modules::passenger(
     'PassengerDefaultRuby' => "${real_ruby_root}/bin/ruby",
     'PassengerRoot'        => $passenger_root,
   }, $config )
+
+  rbenv::gem { 'rack':
+    ruby_version => $ruby_version,
+    version      => $rack_version,
+  } ->
 
   rbenv::gem { 'passenger':
     ruby_version => $ruby_version,
