@@ -2,11 +2,13 @@
 #
 # Manage Apache mod_php
 #
-class apache::modules::php {
+class apache::modules::php(
+  $ensure = present,
+) {
   include ::apache
 
   package { 'libapache2-mod-php':
-    ensure  => present,
+    ensure  => $ensure,
     require => Class['apt::update'],
   }
 }
