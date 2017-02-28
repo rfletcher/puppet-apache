@@ -36,8 +36,8 @@ define apache::dotconf (
   }
 
   $config_dir = $::lsbdistcodename ? {
-    'trusty' => 'conf-enabled',
-    default  => 'conf.d',
+    /(trusty|xenial)/ => 'conf-enabled',
+    default           => 'conf.d',
   }
 
   file { "Apache_${name}.conf":
