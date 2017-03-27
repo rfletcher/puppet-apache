@@ -50,7 +50,10 @@ class apache::modules::passenger(
 
   # install mod_passenger build dependencies
   package { [
-    'apache2-threaded-dev',
+    $::lsbdistcodename ? {
+      'precise' => 'apache2-threaded-dev',
+      default   => 'apache2-dev',
+    },
     'libapr1-dev',
     'libaprutil1-dev',
   ]: } ->
